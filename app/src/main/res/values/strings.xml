@@ -3,4 +3,6 @@
     <string name="lastScreenOffTime">Last Screen Off Time</string>
     <string name="lastScreenOnTime">Last Screen On Time</string>
     <string name="sleepTime">Sleep Time</string>
+    <string name="sleepHistory">Sleep History</string>
+    <string name="todaysSleepMessage">In last 24 hours slept for: </string>
 </resources>

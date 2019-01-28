@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ananthrajsingh.sundaysleep.Database.AppDatabase;
+import com.ananthrajsingh.sundaysleep.Database.Sleep;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,10 +38,12 @@ public class SleepReceiver extends BroadcastReceiver {
         {
             Log.e(TAG, "SCREEN OFF, TIME: " + currentTime);
             mSharedPreferenceUtil.setLastScreenOffTime(currentTimeMilli);
+            mSharedPreferenceUtil.setIsScreenOn(false);
         }
         else if (intent.getAction().equalsIgnoreCase(Intent.ACTION_SCREEN_ON)) {
             Log.e(TAG, "SCREEN ON, TIME: " + currentTime);
             mSharedPreferenceUtil.setLastScreenOnTime(currentTimeMilli);
+            mSharedPreferenceUtil.setIsScreenOn(true);
             Log.e(TAG, "ON TIME SET");
 
 
@@ -47,6 +52,12 @@ public class SleepReceiver extends BroadcastReceiver {
                     - mSharedPreferenceUtil.getLastScreenOffTime();
             mSharedPreferenceUtil.setSleepTime(sleepTime);
             Log.e(TAG, "SLEEP TIME IN SECONDS: " + sleepTime/1000);
+
+            Sleep currentSleep = new Sleep();
+            currentSleep.startTime = mSharedPreferenceUtil.getLastScreenOffTime();
+            currentSleep.endTime = mSharedPreferenceUtil.getLastScreenOnTime();
+            AppDatabase db = AppDatabase.getDatabase(context);
+            db.sleepDao().insertAll(currentSleep);
 //            SimpleDateFormat formatter = new SimpleDateFormat("dd:HH:mm:ss", Locale.UK);
 //
 //            Date time1 = new Date(mSharedPreferenceUtil.getLastScreenOnTime());
