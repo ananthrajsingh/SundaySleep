@@ -105,9 +105,11 @@ public class MainActivity extends AppCompatActivity {
         mServiceIntent = new Intent(getApplicationContext(), SleepService.class);
 
         if (!isServiceRunning(mSleepService.getClass())){
+            startService(mServiceIntent);
+
             PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 0, mServiceIntent, 0);
             AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30*1000, pendingIntent);
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5*60*1000, pendingIntent);
             Log.e("MainActivity", "Alarm Set for 30 seconds");
         }
 

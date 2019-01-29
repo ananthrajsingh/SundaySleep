@@ -46,6 +46,7 @@ public class SleepService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        startTimer();
 
         boolean isServiceRunning = false;
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -92,7 +93,6 @@ public class SleepService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("SleepService", "Running...");
-        startTimer();
         /*
          * This commented out part was intended to run every 3 seconds, we no longer need it.
          */
@@ -139,6 +139,7 @@ public class SleepService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
+        stopTimerTask();
         Intent broadcastIntent = new Intent(this, RestartServiceReceiver.class);
         this.sendBroadcast(broadcastIntent);
 //        try {
