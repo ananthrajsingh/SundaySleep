@@ -20,19 +20,13 @@ import com.ananthrajsingh.sundaysleep.SleepDao;
 import com.ananthrajsingh.sundaysleep.R;
 import com.ananthrajsingh.sundaysleep.RestartServiceReceiver;
 import com.ananthrajsingh.sundaysleep.SharedPreferenceUtil;
-import com.ananthrajsingh.sundaysleep.SleepJob;
-import com.ananthrajsingh.sundaysleep.SleepReceiver;
+
 import com.ananthrajsingh.sundaysleep.SleepService;
-import com.evernote.android.job.JobManager;
-import com.evernote.android.job.JobRequest;
+
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
-import static com.ananthrajsingh.sundaysleep.SleepJob.TAG_I;
-import static com.ananthrajsingh.sundaysleep.SleepJob.TAG_S;
-import static com.ananthrajsingh.sundaysleep.SleepJob.mSleepReceiver;
 
 /**
  * So I want an application which can predict how much time a person slept at night. Currently
@@ -55,9 +49,7 @@ import static com.ananthrajsingh.sundaysleep.SleepJob.mSleepReceiver;
  */
 public class MainActivity extends AppCompatActivity {
 
-//    private TextView mLastScreenOnTv;
-//    private TextView mLastScreenOffTv;
-//    private TextView mSleepTimeTv;
+
     private SharedPreferenceUtil mSharedPreferenceUtil;
     Intent mServiceIntent;
     private SleepService mSleepService;
@@ -77,24 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mSharedPreferenceUtil = new SharedPreferenceUtil(getApplicationContext());
-//        mLastScreenOnTv = findViewById(R.id.lastScreenOnTimeTv);
-//        mLastScreenOffTv = findViewById(R.id.lastScreenOffTimeTv);
-//        mSleepTimeTv = findViewById(R.id.sleepTimeTv);
-//        cancelImmediateJobScheduler();
 
-//        runJobScheduler();
-//        Intent intent = new Intent();
-//        String packageName = this.getPackageName();
-//        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-//        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-//            if (pm.isIgnoringBatteryOptimizations(packageName))
-//                intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-//            else {
-//                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-//                intent.setData(Uri.parse("package:" + packageName));
-//            }
-//        }
-//        this.startActivity(intent);
 
         mSleepService = new SleepService();
         //TODO Check on this below
@@ -113,19 +88,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "Alarm Set for 30 seconds");
         }
 
-//        if (!isServiceRunning(mSleepService.getClass())){
-//            Log.e("MainActivity","Starting service from MainActivity onCreate");
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                getApplicationContext().startForegroundService(new Intent(getApplicationContext(), SleepService.class));
-//            }
-//            else {
-//                getApplicationContext().startService(new Intent(getApplicationContext(), SleepService.class));
-//            }
-//        }
-//            startService(mServiceIntent);
 
-//        Intent broadcastIntent = new Intent(this, RestartServiceReceiver.class);
-//        this.sendBroadcast(broadcastIntent);
     }
 
     private boolean isServiceRunning(Class<?> serviceClass){
@@ -154,24 +117,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 //Do task after 1000ms
                 Log.e("onResume", "Invoked");
-//                SimpleDateFormat formatter = new SimpleDateFormat("dd:HH:mm:ss", Locale.UK);
-////        Log.e(TAG, "We are in updateTimeUi");
-//                Date time1 = new Date(mSharedPreferenceUtil.getLastScreenOnTime());
-//                Date time2 = new Date(mSharedPreferenceUtil.getLastScreenOffTime());
-//                Date time3 = new Date(mSharedPreferenceUtil.getSleepTime());
-//
-//                String onTime = formatter.format(time1);
-//                String offTime = formatter.format(time2);
-//                String sleepTime = formatter.format(time3);
-////        Log.e(TAG, "offTime " + offTime + " onTime " + onTime );
-//
-//                TextView mLastScreenOnTv = findViewById(R.id.lastScreenOnTimeTv);
-//                TextView mLastScreenOffTv = findViewById(R.id.lastScreenOffTimeTv);
-//                TextView mSleepTimeTv = findViewById(R.id.sleepTimeTv);
-//
-//                mLastScreenOnTv.setText(onTime);
-//                mLastScreenOffTv.setText(offTime);
-//                mSleepTimeTv.setText(Long.toString(mSharedPreferenceUtil.getSleepTime()/1000));
 
 
                 TextView textView = findViewById(R.id.sleepDurationTv);
@@ -206,50 +151,9 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
 
-//    private void runJobScheduler(){
-//        Set<JobRequest> jobRequestsImmediate;
-//        Set<JobRequest> jobRequestsScheduled;
-//
-//        jobRequestsImmediate = JobManager.instance().getAllJobRequestsForTag(TAG_I);
-//        jobRequestsScheduled = JobManager.instance().getAllJobRequestsForTag(TAG_S);
-//
-////        if (jobRequestsImmediate == null || jobRequestsImmediate.isEmpty()) {
-////            SleepJob.runJobImmediately();
-////        }
-//        if (jobRequestsScheduled == null || jobRequestsScheduled.isEmpty()) {
-//            SleepJob.schedulePeriodicJob();
-//        }
-//
-//        //Cancel pending job scheduler if mutiple instance are running.
-//        if (jobRequestsScheduled != null && jobRequestsScheduled.size() > 2) {
-//            JobManager.instance().cancelAllForTag(SleepJob.TAG_S);
-//        }
-//
-//        if (jobRequestsImmediate != null) {
-//            jobRequestsImmediate.clear();
-//        }
-//        if (jobRequestsScheduled != null) {
-//            jobRequestsScheduled.clear();
-//        }
-//        jobRequestsImmediate = jobRequestsScheduled = null;
-//    }
-//
-//    private void cancelImmediateJobScheduler() {
-//        JobManager.instance().cancelAllForTag(TAG_I);
-////        JobManager.instance().cancelAllForTag(SleepJob.TAG_S);
-//    }
-
     @Override
     protected void onStop() {
         super.onStop();
-
-//        cancelImmediateJobScheduler();
-
-//        Set<JobRequest> jobRequestsScheduled = JobManager.instance().getAllJobRequestsForTag(TAG_S);
-//        Log.e("MainActivity", "We are in onStop()");
-//        if (jobRequestsScheduled == null || jobRequestsScheduled.isEmpty()) {
-//            SleepJob.schedulePeriodicJob();
-//        }
 
 
 
@@ -260,12 +164,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         // If we don't stop service, it will die with app
-//        try {
-//            SleepReceiver receiver = new SleepReceiver();
-//            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//        }
 
         Intent broadcastIntent = new Intent(this, RestartServiceReceiver.class);
         this.sendBroadcast(broadcastIntent);

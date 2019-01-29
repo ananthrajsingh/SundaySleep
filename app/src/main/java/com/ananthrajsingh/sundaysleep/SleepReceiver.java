@@ -50,43 +50,11 @@ public class SleepReceiver extends BroadcastReceiver {
             currentSleep.endTime = mSharedPreferenceUtil.getLastScreenOnTime();
             AppDatabase db = AppDatabase.getDatabase(context);
             db.sleepDao().insertAll(currentSleep);
-//            SimpleDateFormat formatter = new SimpleDateFormat("dd:HH:mm:ss", Locale.UK);
-//
-//            Date time1 = new Date(mSharedPreferenceUtil.getLastScreenOnTime());
-//            Date time2 = new Date(mSharedPreferenceUtil.getLastScreenOffTime());
-//
-//            String offTime = formatter.format(time1);
-//            String onTime = formatter.format(time2);
-//            Log.e(TAG, "offTime " + offTime + " onTime " + onTime );
 
-//            updateTimeInUi(context);
 
         }
 
     }
 
-//    public static void updateTimeInUi(Context context){
-//
-//        View view = View.inflate(context, R.layout.activity_main, null);
-//
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd:HH:mm:ss", Locale.UK);
-//        Log.e(TAG, "We are in updateTimeUi");
-//        Date time1 = new Date(mSharedPreferenceUtil.getLastScreenOnTime());
-//        Date time2 = new Date(mSharedPreferenceUtil.getLastScreenOffTime());
-//        Date time3 = new Date(mSharedPreferenceUtil.getSleepTime());
-//
-//        String offTime = formatter.format(time1);
-//        String onTime = formatter.format(time2);
-//        String sleepTime = formatter.format(time3);
-//        Log.e(TAG, "offTime " + offTime + " onTime " + onTime );
-//
-//        TextView mLastScreenOnTv = view.findViewById(R.id.lastScreenOnTimeTv);
-//        TextView mLastScreenOffTv = view.findViewById(R.id.lastScreenOffTimeTv);
-//        TextView mSleepTimeTv = view.findViewById(R.id.sleepTimeTv);
-//
-//        mLastScreenOnTv.setText(onTime);
-//        mLastScreenOffTv.setText(offTime);
-//        mSleepTimeTv.setText(sleepTime);
-//
-//    }
+
 }

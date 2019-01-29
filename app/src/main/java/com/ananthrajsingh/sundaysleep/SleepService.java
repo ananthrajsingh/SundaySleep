@@ -19,17 +19,12 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.evernote.android.job.JobManager;
-import com.evernote.android.job.JobRequest;
 
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.ananthrajsingh.sundaysleep.SleepJob.SCREEN_OFF_ACTION;
-import static com.ananthrajsingh.sundaysleep.SleepJob.SCREEN_ON_ACTION;
-import static com.ananthrajsingh.sundaysleep.SleepJob.TAG_I;
-import static com.ananthrajsingh.sundaysleep.SleepJob.mSleepReceiver;
+
 
 /**
  * Created by ananthrajsingh on 26/01/19
@@ -40,6 +35,9 @@ public class SleepService extends Service {
     private Timer mTimer;
     private TimerTask mTimerTask;
     private SleepReceiver mSleepReceiver;
+    public static final String SCREEN_OFF_ACTION = "android.intent.action.SCREEN_OFF";
+    public static final String SCREEN_ON_ACTION = "android.intent.action.SCREEN_ON";
+
 
 
     @Override
