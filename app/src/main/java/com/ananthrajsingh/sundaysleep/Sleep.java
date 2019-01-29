@@ -1,4 +1,4 @@
-package com.ananthrajsingh.sundaysleep.Database;
+package com.ananthrajsingh.sundaysleep;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -11,7 +11,9 @@ import android.arch.persistence.room.PrimaryKey;
 public class Sleep {
 //    public int sleepId;
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    public long uid;
+
     @ColumnInfo(name = "start_time")
     public long startTime;
 

@@ -3,12 +3,11 @@ package com.ananthrajsingh.sundaysleep;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.ananthrajsingh.sundaysleep.Database.Sleep;
 
 import java.util.Calendar;
 import java.util.List;
@@ -44,12 +43,15 @@ public class SleepHistoryAdapter extends RecyclerView.Adapter<SleepHistoryAdapte
 
         long startTimeLong = currentSleep.startTime;
         calendar.setTimeInMillis(startTimeLong);
-        String startDate = "" + calendar.get(Calendar.DAY_OF_MONTH) + ":" + calendar.get(Calendar.MONTH) + ":" + calendar.get(Calendar.YEAR);
+        String startDate = "" + calendar.get(Calendar.DAY_OF_MONTH) + ":" + (calendar.get(Calendar.MONTH) + 1) + ":" + calendar.get(Calendar.YEAR);
         String startTime = "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
         long endTimeLong = currentSleep.endTime;
         calendar.setTimeInMillis(endTimeLong);
-        String endDate = "" + calendar.get(Calendar.DAY_OF_MONTH) + ":" + calendar.get(Calendar.MONTH) + ":" + calendar.get(Calendar.YEAR);
+        String endDate = "" + calendar.get(Calendar.DAY_OF_MONTH) + ":" + (calendar.get(Calendar.MONTH) + 1) + ":" + calendar.get(Calendar.YEAR);
         String endTime = "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+
+        Log.e("SleepHistoryAdapter", "startDate: " + startDate);
+        Log.e("SleepHistoryAdapter", "startTime: " + startTime);
 
         holder.startDate.setText(startDate);
         holder.startTime.setText(startTime);

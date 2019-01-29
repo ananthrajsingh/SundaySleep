@@ -1,25 +1,24 @@
 package com.ananthrajsingh.sundaysleep;
 
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.ananthrajsingh.sundaysleep.Activity.MainActivity;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 
@@ -27,7 +26,10 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.ananthrajsingh.sundaysleep.SleepJob.SCREEN_OFF_ACTION;
+import static com.ananthrajsingh.sundaysleep.SleepJob.SCREEN_ON_ACTION;
 import static com.ananthrajsingh.sundaysleep.SleepJob.TAG_I;
+import static com.ananthrajsingh.sundaysleep.SleepJob.mSleepReceiver;
 
 /**
  * Created by ananthrajsingh on 26/01/19
@@ -37,22 +39,54 @@ public class SleepService extends Service {
     public int mCounter;
     private Timer mTimer;
     private TimerTask mTimerTask;
+    private SleepReceiver mSleepReceiver;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            startOwnForeground();
-            Log.e("SleepService", "onCreate startOwnForeGround");
 
+
+        boolean isServiceRunning = false;
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (SleepService.class.getName().equals(service.service.getClassName())) {
+                isServiceRunning = true;
+            }
         }
-        else{
-            startForeground(1, new Notification());
-
-            Log.e("SleepService", "onCreate startForeground");
-
+        if (isServiceRunning){
+            Log.e("SleepService", "Service ALREADY RUNNING,NOT starting");
         }
+        if (!isServiceRunning){
+            Log.e("SleepService", "Service not already running starting again...");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                startOwnForeground();
+                Log.e("SleepService", "onCreate startOwnForeGround");
+
+            }
+            else{
+                startForeground(1, new Notification());
+
+                Log.e("SleepService", "onCreate startForeground");
+
+            }
+        }
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SCREEN_OFF_ACTION);
+        intentFilter.addAction(SCREEN_ON_ACTION);
+        mSleepReceiver = new SleepReceiver();
+        try{
+            LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mSleepReceiver);
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
+
+        Log.e("SleepService", "RECEIVER REGISTERED");
+        getApplicationContext().registerReceiver(mSleepReceiver, intentFilter);
+
+
+
     }
 
     @Override
@@ -86,11 +120,12 @@ public class SleepService extends Service {
          * Now we need this. We simply need to call once, as this service will be triggered
          * at regular intervals by the Alarm Manager.
          */
-        Set<JobRequest> jobRequestsImmediate = JobManager.instance().getAllJobRequestsForTag(TAG_I);
+//        Set<JobRequest> jobRequestsImmediate = JobManager.instance().getAllJobRequestsForTag(TAG_I);
+//
+//        if (jobRequestsImmediate == null || jobRequestsImmediate.isEmpty()) {
+//            SleepJob.runJobImmediately();
 
-        if (jobRequestsImmediate == null || jobRequestsImmediate.isEmpty()) {
-            SleepJob.runJobImmediately();
-        }
+
 
         return START_STICKY;
     }
@@ -106,6 +141,12 @@ public class SleepService extends Service {
         super.onTaskRemoved(rootIntent);
         Intent broadcastIntent = new Intent(this, RestartServiceReceiver.class);
         this.sendBroadcast(broadcastIntent);
+//        try {
+//            SleepReceiver receiver = new SleepReceiver();
+//            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+//        } catch (IllegalArgumentException e) {
+//            e.printStackTrace();
+//        }
         Log.e(TAG, "In onTaskRemoved");
     }
 
@@ -113,6 +154,13 @@ public class SleepService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stopTimerTask();
+
+//        try {
+//            SleepReceiver receiver = new SleepReceiver();
+//            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+//        } catch (IllegalArgumentException e) {
+//            e.printStackTrace();
+//        }
         Log.e(TAG, "onDestroy of Service called! Sending Broadcast for restart...");
         Intent broadcastIntent = new Intent(this, RestartServiceReceiver.class);
         this.sendBroadcast(broadcastIntent);

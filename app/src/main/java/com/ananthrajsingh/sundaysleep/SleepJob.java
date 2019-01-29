@@ -2,11 +2,9 @@ package com.ananthrajsingh.sundaysleep;
 
 import android.content.Context;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;

@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.ananthrajsingh.sundaysleep.Database.AppDatabase;
-import com.ananthrajsingh.sundaysleep.Database.SleepDao;
+import com.ananthrajsingh.sundaysleep.AppDatabase;
+import com.ananthrajsingh.sundaysleep.SleepDao;
 import com.ananthrajsingh.sundaysleep.R;
 import com.ananthrajsingh.sundaysleep.SleepHistoryAdapter;
 

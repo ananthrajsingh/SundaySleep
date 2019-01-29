@@ -11,7 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.SleepHistoryActivity"></activity>
-        <activity android:name=".SleepHistory" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,18 +20,25 @@
         </activity>
 
         <service
-            android:name=".SleepService"
+            android:name="com.ananthrajsingh.sundaysleep.SleepService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />
 
         <receiver
-            android:name=".RestartServiceReceiver"
+            android:name="com.ananthrajsingh.sundaysleep.RestartServiceReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartServiceReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.DREAMING_STARTED"/>
+                <action android:name="android.intent.action.AIRPLANE_MODE"/>
+                <action android:name="android.intent.action.PACKAGES_SUSPENDED"/>
+                <action android:name="android.intent.action.USER_UNLOCKED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.SCREEN_ON"/>
+                <action android:name="android.intent.action.SCREEN_OFF"/>
             </intent-filter>
         </receiver>
     </application>

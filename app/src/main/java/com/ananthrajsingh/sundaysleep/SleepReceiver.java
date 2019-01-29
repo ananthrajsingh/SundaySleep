@@ -3,18 +3,10 @@ package com.ananthrajsingh.sundaysleep;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
-import com.ananthrajsingh.sundaysleep.Database.AppDatabase;
-import com.ananthrajsingh.sundaysleep.Database.Sleep;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by ananthrajsingh on 26/01/19

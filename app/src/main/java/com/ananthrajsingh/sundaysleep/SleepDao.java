@@ -1,8 +1,10 @@
-package com.ananthrajsingh.sundaysleep.Database;
+package com.ananthrajsingh.sundaysleep;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+
+import com.ananthrajsingh.sundaysleep.Sleep;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Dao
 public interface SleepDao {
 
-    @Query("SELECT * FROM sleep_table ORDER BY start_time")
+    @Query("SELECT * FROM sleep_table ORDER BY start_time DESC")
     List<Sleep> getAll();
 
     @Query("SELECT * FROM sleep_table WHERE start_time >= :startTime ORDER BY start_time")

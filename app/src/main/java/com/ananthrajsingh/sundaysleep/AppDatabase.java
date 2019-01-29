@@ -1,4 +1,4 @@
-package com.ananthrajsingh.sundaysleep.Database;
+package com.ananthrajsingh.sundaysleep;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -8,7 +8,7 @@ import android.content.Context;
 /**
  * Created by ananthrajsingh on 28/01/19
  */
-@Database(entities = {Sleep.class}, version = 1)
+@Database(entities = {Sleep.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract SleepDao sleepDao();
